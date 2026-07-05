@@ -115,7 +115,45 @@ npx playwright test --list
 
 ## Test Reports
 
-After executing the tests, open the HTML report using:
+The framework uses Playwright's built-in **HTML Reporter** to generate detailed execution reports.
+
+After executing the tests, open the report using:
+
+```bash
+npx playwright show-report
+```
+
+The report provides the following information for each test:
+
+* Test execution status (Passed / Failed / Skipped)
+* Execution duration
+* Error messages and stack traces (for failed tests)
+* Retry information (if retries are configured)
+* Execution timestamp
+
+### Custom Report Attachments
+
+The framework has been customized to include additional API execution details in the report to simplify debugging.
+
+For every API request, the following information is attached to the HTML report:
+
+* Request URL
+* HTTP Method
+* Response Status Code
+* Response Time
+* Response Body (formatted JSON)
+
+These attachments can be viewed by expanding the corresponding test in the HTML report
+
+### Report Location
+
+After execution, the HTML report is generated in the following directory:
+
+```text
+playwright-report/
+```
+
+Open the report in any web browser using:
 
 ```bash
 npx playwright show-report
