@@ -96,7 +96,7 @@ npx playwright test
 Run a specific test file:
 
 ```bash
-npx playwright test tests/objectCRUD.spec.js
+npx playwright test tests/objectTests.spec.js
 ```
 
 Run a specific test by name:
