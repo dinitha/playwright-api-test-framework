@@ -5,7 +5,7 @@ class BaseApiClient {
         this.request = request;
     }
 
-    async execute(apiCall) {
+    async execute(apiCall, testInfo) {
         let attempt = 0;
         const maxRetries = 2;
 
@@ -16,7 +16,7 @@ class BaseApiClient {
                 const response = await apiCall();
 
                 const duration = Date.now() - startTime;
-
+                const body = await response.text();
                 await Logger.log(response, duration);
 
                 // Retry only for transient server errors
@@ -25,7 +25,13 @@ class BaseApiClient {
                     attempt++;
                     continue;
                 }
+                if (testInfo) {
+                    await testInfo.attach('API Response', {
+                        body: body,
 
+                        contentType: 'application/json',
+                    });
+                }
                 return response;
             } catch (error) {
                 if (attempt >= maxRetries) throw error;

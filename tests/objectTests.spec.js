@@ -17,8 +17,8 @@ test.beforeEach(async ({ request }) => {
     client = new ObjectClient(request);
 });
 
-test('Verify user is able to get the list of all objects', async () => {
-    const response = await client.getAllObjects();
+test('Verify user is able to get the list of all objects', async ({ request }, testInfo) => {
+    const response = await client.getAllObjects(testInfo);
 
     expect(response.status()).toBe(200);
 
@@ -28,10 +28,10 @@ test('Verify user is able to get the list of all objects', async () => {
     SchemaValidator.validate(listSchema, body);
 });
 
-test('Verify user is able to add an object', async () => {
+test('Verify user is able to add an object', async ({ request }, testInfo) => {
     const payload = createObjectPayload();
 
-    const response = await client.createObject(payload);
+    const response = await client.createObject(payload, testInfo);
 
     expect(response.status()).toBe(200);
 
@@ -45,14 +45,14 @@ test('Verify user is able to add an object', async () => {
     SchemaValidator.validate(schema, body);
 });
 
-test('Verify user is able to get a single object using the ID', async () => {
+test('Verify user is able to get a single object using the ID', async ({ request }, testInfo) => {
     const payload = createObjectPayload();
 
-    const createResponse = await client.createObject(payload);
+    const createResponse = await client.createObject(payload, testInfo);
 
     objectId = (await createResponse.json()).id;
 
-    const response = await client.getObject(objectId);
+    const response = await client.getObject(objectId, testInfo);
 
     expect(response.status()).toBe(200);
 
@@ -64,10 +64,10 @@ test('Verify user is able to get a single object using the ID', async () => {
     SchemaValidator.validate(schema, body);
 });
 
-test('Verify user is able to update the object', async () => {
+test('Verify user is able to update the object', async ({ request }, testInfo) => {
     const payload = createObjectPayload();
 
-    const createResponse = await client.createObject(payload);
+    const createResponse = await client.createObject(payload, testInfo);
 
     objectId = (await createResponse.json()).id;
 
@@ -75,7 +75,7 @@ test('Verify user is able to update the object', async () => {
 
     payload.data.RAM = '64 GB';
 
-    const response = await client.updateObject(objectId, payload);
+    const response = await client.updateObject(objectId, payload, testInfo);
 
     expect(response.status()).toBe(200);
 
@@ -87,20 +87,20 @@ test('Verify user is able to update the object', async () => {
     SchemaValidator.validate(schema, body);
 });
 
-test('Verify user is able to delete the object', async () => {
+test('Verify user is able to delete the object', async ({ request }, testInfo) => {
     const payload = createObjectPayload();
 
-    const createResponse = await client.createObject(payload);
+    const createResponse = await client.createObject(payload, testInfo);
 
     objectId = (await createResponse.json()).id;
 
-    const response = await client.deleteObject(objectId);
+    const response = await client.deleteObject(objectId, testInfo);
 
     expect(response.status()).toBe(200);
 
     const body = await response.json();
 
-    const getResponse = await client.getObject(objectId);
+    const getResponse = await client.getObject(objectId, testInfo);
 
     expect(getResponse.status()).toBe(404);
     SchemaValidator.validate(deleteSchema, body);

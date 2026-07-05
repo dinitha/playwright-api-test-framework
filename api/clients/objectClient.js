@@ -6,32 +6,39 @@ class ObjectClient extends BaseApiClient {
         super(request);
     }
 
-    async getAllObjects() {
-        return await this.execute(() => this.request.get(endpoints.OBJECTS));
+    async getAllObjects(testInfo) {
+        return await this.execute(() => this.request.get(endpoints.OBJECTS), testInfo);
     }
 
-    async getObject(id) {
-        return await this.execute(() => this.request.get(`${endpoints.OBJECTS}/${id}`));
+    async getObject(id, testInfo) {
+        return await this.execute(() => this.request.get(`${endpoints.OBJECTS}/${id}`), testInfo);
     }
 
-    async createObject(payload) {
-        return await this.execute(() =>
-            this.request.post(endpoints.OBJECTS, {
-                data: payload,
-            })
+    async createObject(payload, testInfo) {
+        return await this.execute(
+            () =>
+                this.request.post(endpoints.OBJECTS, {
+                    data: payload,
+                }),
+            testInfo
         );
     }
 
-    async updateObject(id, payload) {
-        return await this.execute(() =>
-            this.request.put(`${endpoints.OBJECTS}/${id}`, {
-                data: payload,
-            })
+    async updateObject(id, payload, testInfo) {
+        return await this.execute(
+            () =>
+                this.request.put(`${endpoints.OBJECTS}/${id}`, {
+                    data: payload,
+                }),
+            testInfo
         );
     }
 
-    async deleteObject(id) {
-        return await this.execute(() => this.request.delete(`${endpoints.OBJECTS}/${id}`));
+    async deleteObject(id, testInfo) {
+        return await this.execute(
+            () => this.request.delete(`${endpoints.OBJECTS}/${id}`),
+            testInfo
+        );
     }
 }
 
