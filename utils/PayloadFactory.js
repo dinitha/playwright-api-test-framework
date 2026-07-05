@@ -1,27 +1,19 @@
 function createObjectPayload() {
-
     return {
-
-        name: "Interview Laptop",
+        name: 'Apple Laptop',
 
         data: {
-
             year: 2026,
 
             price: 1500,
 
-            CPU: "Apple M4",
+            CPU: 'Apple M4',
 
-            RAM: "32 GB"
-
-        }
-
+            RAM: '32 GB',
+        },
     };
-
 }
 
 module.exports = {
-
-    createObjectPayload
-
+    createObjectPayload,
 };
